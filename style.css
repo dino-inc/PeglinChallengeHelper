@@ -1,0 +1,8 @@
+#challengesContainer > div {
+    display: flex;
+    flex-wrap: wrap;
+}
+#challengesContainer > div > div {
+    margin: 10px;
+    flex-basis: 30%;
+}

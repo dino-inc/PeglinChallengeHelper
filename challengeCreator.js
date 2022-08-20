@@ -1,9 +1,9 @@
 class Challenge {
-    constructor (id, name, description, author) {
-        // defaults... probably
+    constructor (id, name, author) {
+        // defaults... probably, need to confirm
         this.id = id;
         this.name = name;
-        this.description = description;
+        this.description = "Write a description! (Does nothing)";
         this.author = author;
         const blankArrayKeys = ["blacklistOrbs", "whitelistOrbs", "blacklistRelics", "whitelistRelics", "blacklistScenarios", "whitelistScenarios", "blacklistBattles", "whitelistBattles", "blacklistEliteBattles", "whitelistEliteBattles", "startingRelics"];
         blankArrayKeys.forEach((item) => {
@@ -27,19 +27,53 @@ class Challenge {
     }
 
     // Create buttons based on keyfield file type
-    function generateButtons() {
+    generateButtons() {
         let challengeContainer = document.getElementById('challengesContainer');
-        let challengeDiv = challengeContainer.getElementById(this.id);
-        if(challengeDiv = null){
-            challengeDiv = challengeContainer.createElement('div');
+        let challengeDiv = document.getElementById(this.id);
+        if(challengeDiv == null){
+            challengeDiv = document.createElement('div');
+            challengeContainer.appendChild(challengeDiv);
             challengeDiv.id = this.id;
         }
         let keyArray = Object.keys(this);
         keyArray.forEach((item) => {
-            addButton(this.id, this[item], typeof this[item]);
+            this.addButton(challengeDiv, this[item], typeof this[item], item);
         });
     }
-    function addButton(containerID, defaultValue, type){
+
+    addButton(container, customValue, type, name){
+        let newKeyFieldInput = null;
+        switch(type) {
+            case "string":
+                newKeyFieldInput = document.createElement('input');
+                newKeyFieldInput.type = "text";
+                newKeyFieldInput.value = customValue;
+                break;
+            case "object":
+                newKeyFieldInput = document.createElement('input');
+                newKeyFieldInput.type = "text";
+                newKeyFieldInput.value = customValue;
+                break;
+            case "boolean":
+                newKeyFieldInput = document.createElement('input');
+                newKeyFieldInput.type = "checkbox";
+                newKeyFieldInput.value = customValue;
+                break;
+            case "number":
+                newKeyFieldInput = document.createElement('input');
+                newKeyFieldInput.type = "number";
+                newKeyFieldInput.value = customValue;
+                break;
+            default:
+                return;
+        }
+        let inputField = document.createElement('div');
+        let nameField = document.createElement('b');
+        nameField.innerHTML = name;
+        inputField.appendChild(nameField);
+        inputField.appendChild(newKeyFieldInput);
+        inputField.appendChild(document.createElement('br'));
+        container.appendChild(inputField);
     }
 }
 let defaultChallengeSettings = new Challenge();
@@ -47,6 +81,11 @@ let challengeObjectArray = [];
 
 // This function's fundamentals from stackoverflow #36127648
 document.getElementById('import').onclick = function() {
+    // Zero out previous values
+    document.getElementById("challengesContainer").textContent = '';
+    challengeObjectArray = [];
+
+    // Load JSON
     var files = document.getElementById('selectFiles').files;
     if (files.length <= 0) {
         return false;
@@ -60,7 +99,10 @@ document.getElementById('import').onclick = function() {
             Object.keys(item).forEach((keyField) => {
                 newChallenge[keyField] = item[keyField];
             });
-            console.log(newChallenge);
+            containerDivider = document.createElement('h2');
+            containerDivider.innerHTML = newChallenge.name;
+            document.getElementById('challengesContainer').appendChild(containerDivider);
+            newChallenge.generateButtons();
         });
     }
     fr.onerror = function(e) {
@@ -70,4 +112,4 @@ document.getElementById('import').onclick = function() {
     fr.readAsText(files.item(0));
 };
 
-// TODO: new file button that creates a default and appends it to the challengeObjectArray
+// TODO - create new challenge button
