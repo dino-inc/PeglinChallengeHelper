@@ -1,8 +1,57 @@
-#challengesContainer > div {
+/* the head honcho */
+body {
+    background-color:rgb(237, 221, 255)
+}
+
+/*the challenge container*/
+#challengesContainer {
+    
+}
+
+/*a challenge*/
+#challengesContainer > span > ul {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: row;
+    margin: 20px;
+    border-radius: 20px;
+    padding: 20px;
+    max-height: 100vh;
+    gap: 10px;
+    background-color: rgb(233, 176, 255);
 }
-#challengesContainer > div > div {
+
+/*each category*/
+#challengesContainer > span > ul > li {
+    width: 250px;
+    background-color: rgb(225, 126, 255);
+    border-radius: 20px;
+    padding: 10px;
+}
+
+/*the list items  themselves*/
+#challengesContainer > span > ul > li > ul > li > div {
+    display: flex;
+    flex-direction: column;
     margin: 10px;
-    flex-basis: 30%;
+    background-color: rgb(224, 82, 253);
+    padding: 10px;
+    border-radius: 10px;
+}
+/* the title of each keyField*/
+#challengesContainer > span > ul > li > ul > li > div > span {
+    margin-right: 20px;
+}
+
+h3 {
+    text-align: center;
+}
+
+h2 > div {
+    font-size: 16px;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
 }
