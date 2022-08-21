@@ -1,13 +1,23 @@
 class Challenge {
-    constructor (id, name, author) {
-        // defaults... probably, need to confirm
-        this.id = id;
-        this.name = name;
+    constructor (newChallenge) {
+        // Only prompt if user is creating a new challenge manually
+        if(newChallenge){
+            this.id = prompt("Challenge ID? Make it unique with no spaces, please.");
+            this.name = prompt("Display name for the challenge?");
+            this.author = prompt("Who is creating this challenge?");
+        } else {
+            this.id = "default";
+            this.name = "default";
+            this.author = "default";
+        }
+        this.setDefaults();
+    }
+
+    setDefaults() {
         this.description = "Write a description! (Does nothing)";
-        this.author = author;
         const blankArrayKeys = ["blacklistOrbs", "whitelistOrbs", "blacklistRelics", "whitelistRelics", "blacklistScenarios", "whitelistScenarios", "blacklistBattles", "whitelistBattles", "blacklistEliteBattles", "whitelistEliteBattles", "startingRelics", "requiredMods", "requiredChallenges"];
         blankArrayKeys.forEach((item) => {
-            this[item] = [];
+            this[item] = null;
         });
         const disabledKeys = ["skipStartingRelic", "permanentDamage", "immuneScenarioDamage", "preventNewOrbs", "preventOrbUpgrades", "preventPegMinigame", "allowCruciball"];
         disabledKeys.forEach((item) => {
@@ -36,6 +46,7 @@ class Challenge {
         let challengeHeader = document.createElement("h2");
         challengeDiv = document.createElement("ul");
         challengeSpan.id = this.id;
+        challengeSpan.classList.add("challenge");
         challengeHeader.innerHTML = this.name;
         challengeSpan.appendChild(challengeHeader);
         challengeSpan.appendChild(challengeDiv);
@@ -52,11 +63,13 @@ class Challenge {
         ["permanentDamage", "immuneScenarioDamage", "riggedBombSelfDamage", "predictionBounces", "battleToEliteConversionChance", "enrageThreshold","enrageAmount", "allowCruciball"], 
         ["preventNewOrbs", "preventOrbUpgrades", "preventPegMinigame"],];
 
+        // Create category containers for each category
         categorySort.forEach((item) => {
             let categorySpan = challengeDiv.appendChild(document.createElement("li"));
             let newCategoryHeader = categorySpan.appendChild(document.createElement("h3"));
             let newCategory = categorySpan.appendChild(document.createElement("ul"));
             categorySpan.id = item+this.id;
+            categorySpan.classList.add("category");
             newCategory.id = item+this.id+"category";
             newCategoryHeader.innerHTML = item;
         });
@@ -83,6 +96,7 @@ class Challenge {
 
     }
 
+    // Returns the input field created
     addButton(container, customValue, type, name){
         let newKeyFieldInput = null;
         switch(type) {
@@ -99,7 +113,7 @@ class Challenge {
             case "boolean":
                 newKeyFieldInput = document.createElement("input");
                 newKeyFieldInput.type = "checkbox";
-                newKeyFieldInput.value = customValue;
+                newKeyFieldInput.checked = customValue;
                 break;
             case "number":
                 newKeyFieldInput = document.createElement("input");
@@ -111,11 +125,27 @@ class Challenge {
         }
         let inputField = document.createElement("div");
         let nameField = document.createElement("span");
+        newKeyFieldInput.id = name;
         nameField.innerHTML = name;
         inputField.appendChild(nameField);
         inputField.appendChild(newKeyFieldInput);
         container.appendChild(inputField);
         return inputField;
+    }
+    // Returns the keys that are different from the default
+    compareKeyfields(challenge){
+        let keyDiff = [];
+        Object.keys(this).forEach((keyField) => {
+            /*console.log(keyField +"\n"+challenge[keyField]+ " vs " +this[keyField]);*/
+            if (!(keyField in challenge)){
+                keyDiff.push(keyField);
+            } else {
+                if(challenge[keyField] != this[keyField]) {
+                    keyDiff.push(keyField);
+                }
+            }
+        });
+        return keyDiff;
     }
 }
 let defaultChallengeSettings = new Challenge();
@@ -137,7 +167,8 @@ document.getElementById("import").onclick = function() {
         let challengeContainer = JSON.parse(e.target.result);
         // Load challenge keys into an new object for every challenge in the file
         challengeContainer.challenges.forEach((item) => {
-            let newChallenge = new Challenge(); 
+            let newChallenge = new Challenge(false);
+            challengeObjectArray.push(newChallenge); 
             Object.keys(item).forEach((keyField) => {
                 newChallenge[keyField] = item[keyField];
             });
@@ -151,4 +182,48 @@ document.getElementById("import").onclick = function() {
     fr.readAsText(files.item(0));
 };
 
-// TODO - create new challenge button
+document.getElementById("newChallenge").onclick = function() {
+    let newChallenge = new Challenge(true);
+    challengeObjectArray.push(newChallenge);
+    newChallenge.generateChallenge();
+}
+
+document.getElementById("generateJSON").onclick = function() {
+    const arrayInputs = ["requiredMods", "requiredChallenges", "blacklistOrbs",  "blacklistRelics",  "blacklistScenarios",  "blacklistBattles",  "blacklistEliteBattles", "whitelistOrbs", "whitelistRelics", "whitelistScenarios", "whitelistBattles", "whitelistEliteBattles", "startingOrbs", "startingRelics"] 
+    challengeObjectArray.forEach((challenge) => {
+        // Update every single attribute of the challenge with their values from the GUI
+        allKeyFields = document.querySelectorAll("#"+challenge.id+" > li > ul > li > div > input");
+        allKeyFields.forEach((keyField) => {
+            switch(keyField.type) {
+                case "text":
+                    if (keyField.id in arrayInputs){
+                        let split = keyField.value.split(",");
+                        if (split == []){
+                            challenge[keyField.id] = null;
+                        }
+                    } else {
+                        challenge[keyField.id] = keyField.value;
+                    }
+                    break;
+                case "boolean":
+                    if(keyField.checked == true){
+                        challenge[keyField.id] = true;
+                    } else {
+                        challenge[keyField.id] = false;
+                    }
+                    break;
+                case "number":
+                    challenge[keyField.id] = parseInt(keyField.value);
+                    break;
+                default:
+                    return;
+            }
+        });
+
+        // Check against internal challenge class which values are changed vs default
+        let editedKeyfields = challenge.compareKeyfields(defaultChallengeSettings);
+        console.log(editedKeyfields);
+        // TODO: bake to JSON every value that changed
+
+    });
+}

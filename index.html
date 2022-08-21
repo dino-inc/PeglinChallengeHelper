@@ -6,14 +6,21 @@
     <title>Peglin Challenge Creator</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
+/>
   </head>
   <body>
     <main>
         <h1>Peglin Challenge Creator</h1>  
         <input type="file" id="selectFiles" value="Import" />
-        <button id="import">Import</button> </br>
+        <button id="import">Import</button> 
+        <button id="newChallenge">New</button>
+        <button id="generateJSON">Save to file</button> 
+        </br>
         <ul id="challengesContainer"></div>
     </main>
 	<script src="challengeCreator.js"></script>
+  <!--javascript Choices-->
+  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
   </body>
 </html>

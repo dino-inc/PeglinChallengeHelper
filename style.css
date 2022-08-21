@@ -9,20 +9,20 @@ body {
 }
 
 /*a challenge*/
-#challengesContainer > span > ul {
+.challenge > ul {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    margin: 20px;
+    margin: 10px;
     border-radius: 20px;
-    padding: 20px;
+    padding: 5px;
     max-height: 100vh;
     gap: 10px;
     background-color: rgb(233, 176, 255);
 }
 
 /*each category*/
-#challengesContainer > span > ul > li {
+.category {
     width: 250px;
     background-color: rgb(225, 126, 255);
     border-radius: 20px;
@@ -30,7 +30,7 @@ body {
 }
 
 /*the list items  themselves*/
-#challengesContainer > span > ul > li > ul > li > div {
+.keyField {
     display: flex;
     flex-direction: column;
     margin: 10px;
@@ -39,7 +39,7 @@ body {
     border-radius: 10px;
 }
 /* the title of each keyField*/
-#challengesContainer > span > ul > li > ul > li > div > span {
+.keyField > span {
     margin-right: 20px;
 }
 
