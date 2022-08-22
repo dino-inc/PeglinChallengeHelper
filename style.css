@@ -4,7 +4,7 @@ body {
     color: rgb(17, 17, 17);
 }
 
-:visited {
+:visited :link :active {
     color:rgb(235, 235, 235);
 }
 
