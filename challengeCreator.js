@@ -313,11 +313,21 @@ document.getElementById("generateJSON").onclick = function() {
         storageObject["challenges"].push(storageChallengeObject);
     });
     let file = document.getElementById("selectFiles").files[0];
-    downloadObject(storageObject, file.name);
+    if (file != undefined){
+        downloadObject(storageObject, file.name);
+    }
+    else {
+        newFileName = prompt("File name?");
+        downloadObject(storageObject, newFileName);
+    }
+ 
 }
 
 // thanks, stackoverflow 12597364
 function downloadObject(obj, filename){
+    if(filename == ""){
+        filename = "newChallenge";
+    }
     var blob = new Blob([JSON.stringify(obj, null, 2)], {type: "application/json;charset=utf-8"});
     var url = URL.createObjectURL(blob);
     var elem = document.createElement("a");
