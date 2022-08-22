@@ -4,9 +4,14 @@ body {
     color: rgb(17, 17, 17);
 }
 
-:visited :link :active {
+:link  {
     color:rgb(235, 235, 235);
 }
+
+:visited {
+    color: rgb(235, 235, 235);
+}
+
 
 /*the challenge container*/
 #challengesContainer {
