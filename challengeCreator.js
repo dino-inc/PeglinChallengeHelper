@@ -60,7 +60,7 @@ const tooltips = {
     "battleToEliteConversionChance": "Float. Between 0.0 and 1.0. Converts regular battles to elite battles. Does not affect the first three spaces.",
     "enrageThreshold": "Integer. Minimum amount of damage the player needs to deal to an enemy. If met, increases the enemy damage.",
     "enrageAmount": "Integer. Amount of damage to increase the enemy when enrageThreshold is met.",
-    "AllowCruciball": "Boolean. Allows the player to continue the challenge with cruciball levels. Cruciball Levels are challenge dependant. CURRENTLY NOT IMPLEMENTED"
+    "allowCruciball": "Boolean. Allows the player to continue the challenge with cruciball levels. Cruciball Levels are challenge dependant. CURRENTLY NOT IMPLEMENTED"
 };
 
 class Challenge {
