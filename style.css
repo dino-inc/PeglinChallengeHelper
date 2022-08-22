@@ -1,6 +1,11 @@
 /* the head honcho */
 body {
-    background-color:rgb(237, 221, 255)
+    background-color:rgb(48, 45, 43);
+    color: rgb(235, 235, 235);
+}
+
+:visited {
+    color:rgb(235, 235, 235);
 }
 
 /*the challenge container*/
@@ -18,26 +23,33 @@ body {
     padding: 5px;
     max-height: 100vh;
     gap: 10px;
-    background-color: rgb(233, 176, 255);
+    background-color: rgb(89, 87, 90);
 }
 
 /*each category*/
 .category {
+    color: rgb(214, 214, 214);
     width: 250px;
-    background-color: rgb(225, 126, 255);
+    background-color: rgb(50, 49, 65);
     border-radius: 20px;
     padding: 10px;
 }
 
 /*the list items  themselves*/
 .keyField {
+    color: rgb(39, 39, 39);
     display: flex;
     flex-direction: column;
     margin: 10px;
-    background-color: rgb(224, 82, 253);
+    background-color: rgb(94, 156, 102);
     padding: 10px;
     border-radius: 10px;
 }
+
+.keyField > input {
+    background-color: rgb(173, 177, 197);
+}
+
 /* the title of each keyField*/
 .keyField > span {
     margin-right: 20px;
