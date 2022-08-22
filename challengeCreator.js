@@ -1,3 +1,68 @@
+// Create constant reference arrays
+// Yes, they're hardcoded... TODO: offload to local dir JSON?
+
+// Value that should be initialized to a blank array 
+const blankArrayKeys = ["blacklistOrbs", "whitelistOrbs", "blacklistRelics", "whitelistRelics", "blacklistScenarios", "whitelistScenarios", "blacklistBattles", "whitelistBattles", "blacklistEliteBattles", "whitelistEliteBattles", "startingRelics", "requiredMods", "requiredChallenges", "startingOrbs"];
+// Value that should be initialized to false boolean
+const disabledKeys = ["skipStartingRelic", "permanentDamage", "immuneScenarioDamage", "preventNewOrbs", "preventOrbUpgrades", "preventPegMinigame", "allowCruciball"];
+
+// List of categories
+const categorySort = ["Required", "Prerequisites", "Blacklists", "Whitelists", "Start Modifiers", "Special", "Rewards", "Uncategorized"];
+
+// Mapping of keyfields to categories
+const categoryMap = [["id", "name", "description", "author"], 
+["requiredMods", "requiredChallenges"], 
+["blacklistOrbs",  "blacklistRelics",  "blacklistScenarios",  "blacklistBattles",  "blacklistEliteBattles"], 
+["whitelistOrbs", "whitelistRelics", "whitelistScenarios", "whitelistBattles", "whitelistEliteBattles"],
+["startingOrbs", "startingRelics", "startingAct", "startingRefreshes", "startingCrits", "skipStartingRelic", "maxHealth", "enemyHealthMultiplier"], 
+["permanentDamage", "immuneScenarioDamage", "riggedBombSelfDamage", "predictionBounces", "battleToEliteConversionChance", "enrageThreshold","enrageAmount", "allowCruciball"], 
+["preventNewOrbs", "preventOrbUpgrades", "preventPegMinigame"]];
+
+// All keyfields that are arrays - duplicate of blankArrayKeys, TODO resolve
+const arrayInputs = ["requiredMods", "requiredChallenges", "blacklistOrbs",  "blacklistRelics",  "blacklistScenarios",  "blacklistBattles",  "blacklistEliteBattles", "whitelistOrbs", "whitelistRelics", "whitelistScenarios", "whitelistBattles", "whitelistEliteBattles", "startingOrbs", "startingRelics"];
+
+// All keyfields that are floats
+const floatKeys = ["enemyHealthMultiplier", "battleToEliteConversionChance"];
+
+// Tooltip object
+const tooltips = {
+    "id": "String. ID used for tracking this challenge.",
+    "name": "String. Display name for challenge.",
+    "description": "String. NOT IMPLEMENTED. WILL DO NOTHING.",
+    "author": "String. The author of the challenge.",
+    "requiredMods": "String Array. Mods required for this challenge to work. Use the GUID of the mod.",
+    "requiredChallenges": "String Array. Challenges required for this challenge to be revealed. Use ID of the other challenges.",
+    "blacklistOrbs": "String Array. Orbs removed from the reward pool. Does not affect Scenarios.",
+    "whitelistOrbs": "String Array. Orbs allowed to be given as rewards. Removes all others. Does not affect Scenarios.",
+    "blacklistRelics": "String Array. Relics removed from the reward pool. Does not affect Scenarios.",
+    "whitelistRelics": "String Array. Relics allowed to be given as rewards. Removes all others. Does not affect Scenarios.",
+    "blacklistScenarios": "String Array. Scenarios not allowed to occur.",
+    "whitelistScenarios": "String Array. Scenarios allowed to occur. Removes all others.",
+    "blacklistBattles": "String Array. Battles not allowed to occur.",
+    "whitelistBattles": "String Array. Battles allowed to occur. Removes all others.",
+    "blacklistEliteBattles": "String Array. Elite battles not allowed to occur.",
+    "whitelistEliteBattles": "String Array. Elite battles allowed to occur. Removes all others.",
+    "startingOrbs": "String Array. What orbs the player starts with.",
+    "startingRelics": "String Array. What relics the player starts with.",
+    "startingAct": "Integer. What act the player starts on. Valid entries 1-3.",
+    "startingRefreshes": "Integer. The number of refresh pegs on the board.",
+    "startingCrits": "Integer. The number of crits pegs on the board.",
+    "skipStartingRelic": "Boolean. Skip the starting relic.",
+    "maxHealth": "Integer. The starting amount of health.",
+    "enemyHealthMultiplier": "Float (ex: 1.1, .9). How much enemy health increases/decreases.",
+    "permanentDamage": "Boolean. Lose max health when damaged.",
+    "immuneScenarioDamage": "Boolean. Lose no health from scenarios.",
+    "riggedBombSelfDamage": "Integer. How much damage rigged bombs inflict on the player.",
+    "preventNewOrbs": "Boolean. Removes orbs from the battle reward. Does not affect scenarios.",
+    "preventOrbUpgrades": "Boolean. Removes upgrades from the battle reward. Does not affect scenarios.",
+    "preventPegMinigame": "Boolean. Remove all peg pachinko minigames from event spaces.",
+    "predictionBounces": "Integer. How many prediction bounces are used.",
+    "battleToEliteConversionChance": "Float. Between 0.0 and 1.0. Converts regular battles to elite battles. Does not affect the first three spaces.",
+    "enrageThreshold": "Integer. Minimum amount of damage the player needs to deal to an enemy. If met, increases the enemy damage.",
+    "enrageAmount": "Integer. Amount of damage to increase the enemy when enrageThreshold is met.",
+    "AllowCruciball": "Boolean. Allows the player to continue the challenge with cruciball levels. Cruciball Levels are challenge dependant. CURRENTLY NOT IMPLEMENTED"
+};
+
 class Challenge {
     constructor (newChallenge) {
         // Only prompt if user is creating a new challenge manually
@@ -15,11 +80,9 @@ class Challenge {
 
     setDefaults() {
         this.description = "Write a description! (Does nothing)";
-        const blankArrayKeys = ["blacklistOrbs", "whitelistOrbs", "blacklistRelics", "whitelistRelics", "blacklistScenarios", "whitelistScenarios", "blacklistBattles", "whitelistBattles", "blacklistEliteBattles", "whitelistEliteBattles", "startingRelics", "requiredMods", "requiredChallenges", "startingOrbs"];
         blankArrayKeys.forEach((item) => {
             this[item] = [];
         });
-        const disabledKeys = ["skipStartingRelic", "permanentDamage", "immuneScenarioDamage", "preventNewOrbs", "preventOrbUpgrades", "preventPegMinigame", "allowCruciball"];
         disabledKeys.forEach((item) => {
             this[item] = false;
         });
@@ -52,15 +115,7 @@ class Challenge {
         challengeContainer.appendChild(challengeSpan);
         challengeDiv.id = this.id;
 
-        // Create keyfield categories
-        const categorySort = ["Required", "Prerequisites", "Blacklists", "Whitelists", "Start Modifiers", "Special", "Rewards", "Uncategorized"];
-        const categoryMap = [["id", "name", "description", "author"], 
-        ["requiredMods", "requiredChallenges"], 
-        ["blacklistOrbs",  "blacklistRelics",  "blacklistScenarios",  "blacklistBattles",  "blacklistEliteBattles"], 
-        ["whitelistOrbs", "whitelistRelics", "whitelistScenarios", "whitelistBattles", "whitelistEliteBattles"],
-        ["startingOrbs", "startingRelics", "startingAct", "startingRefreshes", "startingCrits", "skipStartingRelic", "maxHealth", "enemyHealthMultiplier"], 
-        ["permanentDamage", "immuneScenarioDamage", "riggedBombSelfDamage", "predictionBounces", "battleToEliteConversionChance", "enrageThreshold","enrageAmount", "allowCruciball"], 
-        ["preventNewOrbs", "preventOrbUpgrades", "preventPegMinigame"],];
+
 
         // Create category containers for each category
         categorySort.forEach((item) => {
@@ -92,7 +147,8 @@ class Challenge {
             let newButton = this.addButton(challengeCategory, this[item], typeof this[item], item);
             newButton.classList.add(item, "keyField");
         });
-
+        let challengeCategoryHide = document.getElementById("Uncategorized"+this.id);
+        challengeCategoryHide.hidden = true;
     }
 
     // Returns the input field created
@@ -128,8 +184,13 @@ class Challenge {
         }
         let inputField = document.createElement("div");
         let nameField = document.createElement("span");
+        let tooltip = document.createElement("span");
         newKeyFieldInput.id = name;
         nameField.innerHTML = name;
+        tooltip.innerHTML = tooltips[name];
+        tooltip.classList.add("tooltiptext");
+        nameField.classList.add("tooltip");
+        nameField.appendChild(tooltip);
         inputField.appendChild(nameField);
         inputField.appendChild(newKeyFieldInput);
         container.appendChild(inputField);
@@ -202,7 +263,6 @@ document.getElementById("newChallenge").onclick = function() {
 }
 
 document.getElementById("generateJSON").onclick = function() {
-    const arrayInputs = ["requiredMods", "requiredChallenges", "blacklistOrbs",  "blacklistRelics",  "blacklistScenarios",  "blacklistBattles",  "blacklistEliteBattles", "whitelistOrbs", "whitelistRelics", "whitelistScenarios", "whitelistBattles", "whitelistEliteBattles", "startingOrbs", "startingRelics"] 
     // Create an empty JSON object containing a challenges array
     let storageObject = new Object();
     storageObject.challenges = [];
@@ -230,7 +290,12 @@ document.getElementById("generateJSON").onclick = function() {
                     }
                     break;
                 case "number":
-                    challenge[keyField.id] = parseInt(keyField.value);
+                    if (floatKeys.includes(keyField.id)){
+                        challenge[keyField.id] = parseFloat(keyField.value);
+                    } 
+                    else {
+                        challenge[keyField.id] = parseInt(keyField.value);
+                    }
                     break;
                 default:
                     return;
@@ -262,3 +327,5 @@ function downloadObject(obj, filename){
     elem.click();
     document.body.removeChild(elem);
   }
+
+

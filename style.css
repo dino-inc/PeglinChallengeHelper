@@ -1,7 +1,7 @@
 /* the head honcho */
 body {
-    background-color:rgb(48, 45, 43);
-    color: rgb(235, 235, 235);
+    background-color:rgb(148, 117, 77);
+    color: rgb(17, 17, 17);
 }
 
 :visited {
@@ -67,3 +67,27 @@ ul {
     list-style: none;
     padding-left: 0;
 }
+
+/* Tooltip text - CSS stolen from the internet*/
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: rgb(71, 71, 71);
+    color: rgb(235, 235, 235);
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    position: absolute;
+    z-index: 1;
+  }
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; 
+  }
