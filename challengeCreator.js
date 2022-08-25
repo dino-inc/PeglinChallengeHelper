@@ -86,11 +86,12 @@ class Challenge {
         disabledKeys.forEach((item) => {
             this[item] = false;
         });
+        this.startingOrbs = ["StoneOrb-Lvl1","StoneOrb-Lvl1","StoneOrb-Lvl1","Daggorb-Lvl1"];
         this.startingAct = 1;
         this.startingRefreshes = 2;
         this.startingCrits = 2;
-        this.maxHealth = 0;
-        this.enemyHealthMultiplier = 0.0;
+        this.maxHealth = 100;
+        this.enemyHealthMultiplier = 1.0;
         this.riggedBombSelfDamage = 4;
         this.predictionBounces = 1;
         this.battleToEliteConversionChance = 0.0;
@@ -162,9 +163,10 @@ class Challenge {
                 newKeyFieldInput.classList.add("string");
                 break;
             case "object":
-                newKeyFieldInput = document.createElement("input");
-                newKeyFieldInput.type = "text";
-                newKeyFieldInput.value = customValue;
+                newKeyFieldInput = document.createElement("select");
+                newKeyFieldInput.multiple = true;
+                //newKeyFieldInput.value = customValue;
+                let choices1 = new Choices(newKeyFieldInput);
                 newKeyFieldInput.classList.add("stringArray");
                 break;
             case "boolean":
