@@ -1,8 +1,9 @@
 // Create constant reference arrays
-// Yes, they're hardcoded... TODO: offload to local dir JSON?
+// Yes, they"re hardcoded... TODO: offload to local dir JSON?
 
 // Value that should be initialized to a blank array 
 const blankArrayKeys = ["blacklistOrbs", "whitelistOrbs", "blacklistRelics", "whitelistRelics", "blacklistScenarios", "whitelistScenarios", "blacklistBattles", "whitelistBattles", "blacklistEliteBattles", "whitelistEliteBattles", "startingRelics", "requiredMods", "requiredChallenges", "startingOrbs"];
+const textChoices = ["requiredMods", "requiredChallenges"];
 // Value that should be initialized to false boolean
 const disabledKeys = ["skipStartingRelic", "permanentDamage", "immuneScenarioDamage", "preventNewOrbs", "preventOrbUpgrades", "preventPegMinigame", "allowCruciball"];
 
@@ -63,6 +64,28 @@ const tooltips = {
     "allowCruciball": "Boolean. Allows the player to continue the challenge with cruciball levels. Cruciball Levels are challenge dependant. CURRENTLY NOT IMPLEMENTED"
 };
 
+// Forest Battles
+const forestBattles = ["EntryEncounter", "Bats1", "SlimeEncounter2", "SlimeEncounterRandomMap", "PlantEncounter1", "MuchoSlimeEncounter_Easy", "ForestSpiderEasy", "StumpEncounterEasy", "Bats2", "ForestKitchenSink", "MuchoSlimeEncounter", "SlimeEncounter4", "PlantsEncounter2", "ONLYBATS", "ForestSpiderBattleData", "StumpPlantEncounter", "StumpMix"];
+const forestEliteBattles = ["SlimeMiniBossEncounter_HARD", "PlantMiniboss", "MinotaurBossEncounter"];
+const forestScenarios = ["BrambleTree", "SunnyClearing", "Thunderstorm", "MysteriousAltarOffer", "SlimyPathMapData", "CrowClearing", "Inferno", "HaglinScouting", "WaterfallMapData", "OrbeliskMapData", "MirrorDuplicate", "MirrorRemove", "Gambler", "PeglinEchoScenarioMapData", "HealingTreeScenario", "DuplicationAltar"];
+
+// Castle Battles
+const castleBattles = ["ShieldEncounter_Easy", "MatchingKnights_Easy", "TeleportOnly_Easy", "BrickSlimeEasyBattle", "AllKnightsMapLayoutEasy", "ShieldAtcherMapData_Easy", "JustMirrorEasy", "RotatingShieldEncounterEasy", "ShieldAndKnight", "ShieldTeleport", "BrickSlimeNormalBattle", "ShieldArcherHealBattle", "ShieldClerics", "MirrorPlantBattle", "LightningRodArcherBattle"];
+const castleEliteBattles = ["KnightMiniBoss", "DemonWallMinibossMapData", "ShieldMageMinibossMapData"];
+const castleScenarios = ["PeglinChef", "MysteriousAltarOffer", "HaglinScouting", "OldBrickSlime", "AggressiveBrickSlimes", "VampireScenarioMapData", "MirrorDuplicate", "MirrorRemove", "ScaryHaglin", "OrbeliskMapData", "Gambler"];
+
+// Mine Battles
+const mineBattles = ["MinesMirrorSoloEasy", "MinesEldritchEasyEncounter1", "MinesMirrorAndRanged", "MinesEldritchEncounter1", "MinesSapperGoblinEncounter", "MinesSpiderBattle", "MinesLightningSapperBattleData", "MinesRangedSapperBattle"];
+const mineEliteBattles = ["TurnedManMapData", "MinesInvisibleManMiniboss", "SlenderlinMinibossMapData"];
+const mineScenarios =  ["Inferno", "MysteriousAltarOffer", "HaglinScouting", "VampireScenarioMapData", "MirrorDuplicate", "MirrorRemove", "ScaryHaglin", "WaterfallMapData", "OrbeliskMapData", "ForestPortalMapData", "MirrorTunnel", "Gambler", "SecretTunnelMapData", "PeglinEchoScenarioMapData", "DuplicationAltar", "MinecartMapData"];
+
+// Orbs mapped to internal names
+const orbMap = {"Orb Name": "Internal Name", "AllOrbNothing": "all_orb_nothing", "BlindOrb": "blind", " Bomborb": "bomborb", "Bramble": "bramble", "Bouldorb": "boulder", "Bufforb": "buff", "Concentrication": "special_pegs_orb", "Critiball": "critiball", "Daggorb": "dagger", "Debufforb": "debuff", "Doctorb": "heal_orb", "EchoOrb": "echo_orb", "Egg": "egg", "Etherwheel": "refresh_on_exit", "Extraorbinary": "extra_orbinary", "Fireball": "fireball", "GhostOrb": "ghost", "IceBall": "icicle", "JackOrbLantern": "portal", "LightningBall": "lightning", "Memorb": "memorb", "Mirrob": "mirror", "Morbidorb": "morbid", "Necorbmancer": "necorb", "Ohmyogrb": "destroy_peg_orb", "Orbelisk": "orbelisk", "Orbsium": "dense_orb", "Orboros": "orberos", "Refreshorb": "refreshorb", "Rubborb": "rubber", "ShuffleOrb": "shuffle", "Sphear": "sphear", "Splatorb": "splatorb", "StoneOrb": "stone", "Sworb": "sworb", "VampireOrb": "vampire_orb"};
+
+// Relics mapped to internal names
+const relicMap = {"Alchemist's Cookbook": "PEG_TO_BOMB", "Ambidextionary": "ADDITIONAL_DISCARD", "Ambiguous Amulet": "WALL_BOUNCES_COUNT", "An Apple A Day": "MAX_HEALTH_SMALL", "Bad Cheese": "DAMAGE_ENEMIES_ON_RELOAD", "Basic Blade": "NON_CRIT_BONUS_DMG", "Betsy's Hedge": "HEDGE_BETS", "Bomb Baton": "ADDITIONAL_STARTING_BOMBS", "Bombulet": "DOUBLE_BOMBS_ON_MAP", "Complex Claw": "CRIT_BONUS_DMG", "Consuming Chalice": "REDUCE_REFRESH", "Cookie": "HEAL_ON_REFRESH_POTION", "Critsomallos Fleece": "CRITS_STACK", "Cursed Mask": "CONFUSION_RELIC", "Decoy Orb": "FREE_RELOAD", "Dumb Bell": "STR_ON_RELOAD", "Echo Chamber": "ALL_ATTACKS_ECHO", "Electropegnet": "PEG_MAGNET", "Enhanced Gunpowder": "BOMB_SPLASH", "Eye of Turtle": "ADDITIONAL_ORB_RELIC_OPTIONS", "Fresh Bandana": "ADDITIONAL_REFRESH1", "Gardener's Gloves": "DAMAGE_BONUS_PLANT_FLAT", "Gift That Keeps Giving": "UNPOPPABLE_PEGS", "Glorious SuffeRing": "ALL_ORBS_BUFF", "Grabby Hand": "FLYING_HORIZONTAL_PIERCE", "Haglin's Satchel": "ADD_ORBS_AND_UPGRADE", "Heavy Shaft Potion": "CRIT_ALSO_REFRESH", "Hero's Backpack": "ADJACENCY_BONUS", "Improved Catalyst": "ADDITIONAL_BOMB_DAMAGE", "Inconspicuous Ring": "BOUNCERS_COUNT", "Infernal Ingot": "LIFESTEAL_PEG_HITS", "Intentional Oboe": "REDUCE_LOST_HEALTH", "Kinetic Meteorite": "BOMB_FORCE_ALWAYS", "Knife's Edge": "LOW_HEALTH_GUARANTEED_CRIT", "Light Shaft Potion": "REFRESH_ALSO_CRIT", "Lucky Penny": "ADDITIONAL_CRIT2", "Matryoshka Shell": "MATRYOSHKA"};
+
+
 class Challenge {
     constructor (newChallenge) {
         // Only prompt if user is creating a new challenge manually
@@ -97,6 +120,7 @@ class Challenge {
         this.battleToEliteConversionChance = 0.0;
         this.enrageThreshold = 0;
         this.enrageAmount = 0;
+        this.choiceObjectMap = new Object();
     }
 
     // Create buttons based on keyfield file type
@@ -163,11 +187,16 @@ class Challenge {
                 newKeyFieldInput.classList.add("string");
                 break;
             case "object":
-                newKeyFieldInput = document.createElement("select");
-                newKeyFieldInput.multiple = true;
-                //newKeyFieldInput.value = customValue;
-                let choices1 = new Choices(newKeyFieldInput);
-                newKeyFieldInput.classList.add("stringArray");
+                if(textChoices.includes(name)){
+                    newKeyFieldInput = document.createElement("input");
+                    newKeyFieldInput.type = "text";
+                    newKeyFieldInput.classList.add("string");
+                }
+                else {
+                    newKeyFieldInput = document.createElement("select");
+                    newKeyFieldInput.multiple = true;
+                    newKeyFieldInput.classList.add("stringArray");
+                }
                 break;
             case "boolean":
                 newKeyFieldInput = document.createElement("input");
@@ -196,8 +225,45 @@ class Challenge {
         inputField.appendChild(nameField);
         inputField.appendChild(newKeyFieldInput);
         container.appendChild(inputField);
+        this.choiceObject = this.convertToChoices(name, newKeyFieldInput);
         return inputField;
     }
+    // Convert any of the  necessary fields to the choices object
+    convertToChoices(name, element){
+        let choices1 = null;
+        if (blankArrayKeys.includes(name)) {
+            choices1 = new Choices(element, {
+                allowHTML: true,
+                removeItems: true,
+                removeItemButton: true,
+                shouldSort: false
+            });
+            // Store the Choices object for the name inside the challenge object
+            this.choiceObjectMap[name] = choices1;
+            switch(name){
+                // Add the predetermined battle/relic/orb inputs to the choice fields
+                case ("blacklistBattles" || "whitelistBattles"):
+                    this.addChoiceOptions(name, forestBattles.concat(castleBattles,mineBattles));
+                case ("blacklistEliteBattles" || "whitelistEliteBattles"):
+                    this.addChoiceOptions(name, forestEliteBattles.concat(castleEliteBattles,mineEliteBattles));
+                case ("blacklistOrbs" || "whitelistOrbs"):
+                    this.addChoiceOptions(name, Object.entries(orbMap));
+                case ("blacklistRelics" || "whitelistRelics"):
+                    this.addChoiceOptions(name, relicMap);
+            };
+        }
+        return choices1;
+    }
+    
+    addChoiceOptions(name, battleList) {
+        let input = this.choiceObjectMap[name];
+        let tempChoiceArray = []
+        battleList.forEach((item) => {
+            tempChoiceArray.push({value: item, label: item});
+        });
+        input.setChoices(tempChoiceArray, "value", 'label', false);
+    }
+
     // Returns the keys that are different from the default
     compareKeyfields(challenge){
         let keyDiff = [];
@@ -227,7 +293,7 @@ class Challenge {
 let defaultChallengeSettings = new Challenge();
 let challengeObjectArray = [];
 
-// This function's basic structure from stackoverflow 36127648
+// This function"s basic structure from stackoverflow 36127648
 document.getElementById("import").onclick = function() {
     // Zero out previous values
     document.getElementById("challengesContainer").textContent = "";
@@ -242,6 +308,7 @@ document.getElementById("import").onclick = function() {
     fr.onload = function(e) {
         let challengeContainer = JSON.parse(e.target.result);
         // Load challenge keys into an new object for every challenge in the file
+        // TODO support arbitrary objects
         challengeContainer.challenges.forEach((item) => {
             let newChallenge = new Challenge(false);
             challengeObjectArray.push(newChallenge); 
