@@ -96,3 +96,13 @@ ul {
     display: inline-block;
     border-bottom: 1px dotted black; 
   }
+
+.choices__item::after {
+    visibility: hidden !important;
+    overflow-x: hidden;
+}
+
+.choices__item--choice {
+    width: 90%;
+    overflow-x:hidden;
+}

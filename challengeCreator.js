@@ -80,7 +80,7 @@ const mineEliteBattles = ["TurnedManMapData", "MinesInvisibleManMiniboss", "Slen
 const mineScenarios =  ["Inferno", "MysteriousAltarOffer", "HaglinScouting", "VampireScenarioMapData", "MirrorDuplicate", "MirrorRemove", "ScaryHaglin", "WaterfallMapData", "OrbeliskMapData", "ForestPortalMapData", "MirrorTunnel", "Gambler", "SecretTunnelMapData", "PeglinEchoScenarioMapData", "DuplicationAltar", "MinecartMapData"];
 
 // Orbs mapped to internal names
-const orbMap = {"Orb Name": "Internal Name", "AllOrbNothing": "all_orb_nothing", "BlindOrb": "blind", " Bomborb": "bomborb", "Bramble": "bramble", "Bouldorb": "boulder", "Bufforb": "buff", "Concentrication": "special_pegs_orb", "Critiball": "critiball", "Daggorb": "dagger", "Debufforb": "debuff", "Doctorb": "heal_orb", "EchoOrb": "echo_orb", "Egg": "egg", "Etherwheel": "refresh_on_exit", "Extraorbinary": "extra_orbinary", "Fireball": "fireball", "GhostOrb": "ghost", "IceBall": "icicle", "JackOrbLantern": "portal", "LightningBall": "lightning", "Memorb": "memorb", "Mirrob": "mirror", "Morbidorb": "morbid", "Necorbmancer": "necorb", "Ohmyogrb": "destroy_peg_orb", "Orbelisk": "orbelisk", "Orbsium": "dense_orb", "Orboros": "orberos", "Refreshorb": "refreshorb", "Rubborb": "rubber", "ShuffleOrb": "shuffle", "Sphear": "sphear", "Splatorb": "splatorb", "StoneOrb": "stone", "Sworb": "sworb", "VampireOrb": "vampire_orb"};
+const orbMap = {"AllOrbNothing": "all_orb_nothing", "BlindOrb": "blind", "Bomborb": "bomborb", "Bramble": "bramble", "Bouldorb": "boulder", "Bufforb": "buff", "Concentrication": "special_pegs_orb", "Critiball": "critiball", "Daggorb": "dagger", "Debufforb": "debuff", "Doctorb": "heal_orb", "EchoOrb": "echo_orb", "Egg": "egg", "Etherwheel": "refresh_on_exit", "Extraorbinary": "extra_orbinary", "Fireball": "fireball", "GhostOrb": "ghost", "IceBall": "icicle", "JackOrbLantern": "portal", "LightningBall": "lightning", "Memorb": "memorb", "Mirrob": "mirror", "Morbidorb": "morbid", "Necorbmancer": "necorb", "Ohmyogrb": "destroy_peg_orb", "Orbelisk": "orbelisk", "Orbsium": "dense_orb", "Orboros": "orberos", "Refreshorb": "refreshorb", "Rubborb": "rubber", "ShuffleOrb": "shuffle", "Sphear": "sphear", "Splatorb": "splatorb", "StoneOrb": "stone", "Sworb": "sworb", "VampireOrb": "vampire_orb"};
 
 // Relics mapped to internal names
 const relicMap = {"Alchemist's Cookbook": "PEG_TO_BOMB", "Ambidextionary": "ADDITIONAL_DISCARD", "Ambiguous Amulet": "WALL_BOUNCES_COUNT", "An Apple A Day": "MAX_HEALTH_SMALL", "Bad Cheese": "DAMAGE_ENEMIES_ON_RELOAD", "Basic Blade": "NON_CRIT_BONUS_DMG", "Betsy's Hedge": "HEDGE_BETS", "Bomb Baton": "ADDITIONAL_STARTING_BOMBS", "Bombulet": "DOUBLE_BOMBS_ON_MAP", "Complex Claw": "CRIT_BONUS_DMG", "Consuming Chalice": "REDUCE_REFRESH", "Cookie": "HEAL_ON_REFRESH_POTION", "Critsomallos Fleece": "CRITS_STACK", "Cursed Mask": "CONFUSION_RELIC", "Decoy Orb": "FREE_RELOAD", "Dumb Bell": "STR_ON_RELOAD", "Echo Chamber": "ALL_ATTACKS_ECHO", "Electropegnet": "PEG_MAGNET", "Enhanced Gunpowder": "BOMB_SPLASH", "Eye of Turtle": "ADDITIONAL_ORB_RELIC_OPTIONS", "Fresh Bandana": "ADDITIONAL_REFRESH1", "Gardener's Gloves": "DAMAGE_BONUS_PLANT_FLAT", "Gift That Keeps Giving": "UNPOPPABLE_PEGS", "Glorious SuffeRing": "ALL_ORBS_BUFF", "Grabby Hand": "FLYING_HORIZONTAL_PIERCE", "Haglin's Satchel": "ADD_ORBS_AND_UPGRADE", "Heavy Shaft Potion": "CRIT_ALSO_REFRESH", "Hero's Backpack": "ADJACENCY_BONUS", "Improved Catalyst": "ADDITIONAL_BOMB_DAMAGE", "Inconspicuous Ring": "BOUNCERS_COUNT", "Infernal Ingot": "LIFESTEAL_PEG_HITS", "Intentional Oboe": "REDUCE_LOST_HEALTH", "Kinetic Meteorite": "BOMB_FORCE_ALWAYS", "Knife's Edge": "LOW_HEALTH_GUARANTEED_CRIT", "Light Shaft Potion": "REFRESH_ALSO_CRIT", "Lucky Penny": "ADDITIONAL_CRIT2", "Matryoshka Shell": "MATRYOSHKA"};
@@ -236,30 +236,66 @@ class Challenge {
                 allowHTML: true,
                 removeItems: true,
                 removeItemButton: true,
-                shouldSort: false
+                shouldSort: false,
+                itemSelectText: "Select"
             });
             // Store the Choices object for the name inside the challenge object
             this.choiceObjectMap[name] = choices1;
             switch(name){
                 // Add the predetermined battle/relic/orb inputs to the choice fields
-                case ("blacklistBattles" || "whitelistBattles"):
-                    this.addChoiceOptions(name, forestBattles.concat(castleBattles,mineBattles));
-                case ("blacklistEliteBattles" || "whitelistEliteBattles"):
-                    this.addChoiceOptions(name, forestEliteBattles.concat(castleEliteBattles,mineEliteBattles));
-                case ("blacklistOrbs" || "whitelistOrbs"):
-                    this.addChoiceOptions(name, Object.entries(orbMap));
-                case ("blacklistRelics" || "whitelistRelics"):
-                    this.addChoiceOptions(name, relicMap);
+                case "blacklistBattles": case "whitelistBattles":
+                    const battleCats = [[forestBattles, "Forest Battles"], [castleBattles, "Castle Battles"], [mineBattles, "Mine Battles"]];
+                    battleCats.forEach((item) => {
+                        this.addChoiceCategory(name, item[0], item[1]);
+                    });
+                    break;
+                case "blacklistEliteBattles": case "whitelistEliteBattles":
+                    const eliteBattleCats = [[forestEliteBattles, "Forest Elite Battles"], [castleEliteBattles, "Castle Elite Battles"], [mineEliteBattles, "Mine Elite Battles"]];
+                    eliteBattleCats.forEach((item) => {
+                        this.addChoiceCategory(name, item[0], item[1]);
+                    });
+                    break;
+                case "blacklistOrbs": case "whitelistOrbs": case "startingOrbs":
+                    this.addChoiceOptionsFromObject(name, orbMap);
+                    break;
+                case "blacklistRelics": case "whitelistRelics": case "startingRelics":
+                    this.addChoiceOptionsFromObject(name, relicMap);
+                    break;
+                case "blacklistScenarios": case "whitelistScenarios":
+                    const scenariosCat = [[forestScenarios, "Forest Scenarios"], [castleScenarios, "Castle Scenarios"], [mineScenarios, "Mine Scenarios"]];
+                    scenariosCat.forEach((item) => {
+                        this.addChoiceCategory(name, item[0], item[1]);
+                    });
+                    break;
             };
         }
         return choices1;
     }
     
-    addChoiceOptions(name, battleList) {
+    // Add choices to a keyfield from the array passed in
+    addChoiceCategory(name, battleList, catName) {
+        // select choice object being manipulated
         let input = this.choiceObjectMap[name];
         let tempChoiceArray = []
         battleList.forEach((item) => {
             tempChoiceArray.push({value: item, label: item});
+        });
+        
+        input.setChoices([{label: catName,
+            id: categoryID++,
+            disabled: false,
+            choices: tempChoiceArray,
+        }], "value", 'label', false);
+    }
+
+    // Add choices to a keyfield from the passed object's keys
+    addChoiceOptionsFromObject(name, mapObject) {
+        let mapObjectKeys = Object.keys(mapObject);
+        let input = this.choiceObjectMap[name];
+        let tempChoiceArray = [];
+        mapObjectKeys.forEach((item) => {
+            let internalNameIndex = Object.keys(mapObject).indexOf(item);
+            tempChoiceArray.push({value: Object.keys(mapObject)[internalNameIndex], label: item});
         });
         input.setChoices(tempChoiceArray, "value", 'label', false);
     }
@@ -292,6 +328,7 @@ class Challenge {
 }
 let defaultChallengeSettings = new Challenge();
 let challengeObjectArray = [];
+let categoryID = 0;
 
 // This function"s basic structure from stackoverflow 36127648
 document.getElementById("import").onclick = function() {
